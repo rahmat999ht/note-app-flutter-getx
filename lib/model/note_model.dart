@@ -21,4 +21,11 @@ class NoteModel {
     body = json["body"];
     creationDate = json["creationDate"];
   }
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "title": title,
+    "body": body,
+    "creationDate": creationDate,
+  };
 }

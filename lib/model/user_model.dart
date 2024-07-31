@@ -4,16 +4,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // @JsonCodable()
 class UserModel {
   String? id;
-  String? name;
+  String? userName;
   String? email;
 
-  UserModel({this.id, this.name, this.email});
+  UserModel({this.id, this.userName, this.email});
 
   UserModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     id = doc["id"];
-    name = doc["name"];
+    userName = doc["userName"];
     email = doc["email"];
   }
 
-
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "userName": userName,
+    "email": email,
+  };
 }
