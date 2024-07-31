@@ -1,23 +1,15 @@
 import 'package:get/get.dart';
 
+import '../../../../models/user_model.dart';
+
 class AccountController extends GetxController {
-  //TODO: Implement AccountController
+  Rx<UserModel> _userModel = UserModel().obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  UserModel get user => _userModel.value;
+
+  set user(UserModel value) => this._userModel.value = value;
+
+  void clear() {
+    _userModel.value = UserModel();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

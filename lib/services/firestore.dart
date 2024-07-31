@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-import '../model/note_model.dart';
-import '../model/user_model.dart';
+import '../models/note_model.dart';
+import '../models/user_model.dart';
 
 class Database {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
