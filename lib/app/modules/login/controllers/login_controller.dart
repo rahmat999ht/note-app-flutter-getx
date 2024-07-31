@@ -13,13 +13,11 @@ class LoginController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
   Database database = Database();
   late Rx<User?> _firebaseUser;
-  TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   String usersCollection = "users";
   Rx<UserModel> userModel = UserModel().obs;
-  Rx<int> axisCount = 2.obs;
 
   @override
   void onInit() {
@@ -29,34 +27,6 @@ class LoginController extends GetxController {
   }
 
   void toSingUp() => Get.toNamed(Routes.REGISTER);
-
-  void createUser() async {
-    try {
-      await _auth
-          .createUserWithEmailAndPassword(
-              email: email.text.trim(), password: password.text.trim())
-          .then((value) {
-        UserModel _user = UserModel(
-          id: value.user!.uid,
-          userName: name.text,
-          email: email.text,
-        );
-        Database().createNewUser(_user).then((value) {
-          if (value) {
-            Get.find<AccountController>().user = _user;
-            Get.back();
-            _clearControllers();
-          }
-        });
-      });
-    } catch (e) {
-      Get.snackbar(
-        'Error creating account',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
 
   Future login() async {
     try {
@@ -94,7 +64,6 @@ class LoginController extends GetxController {
   }
 
   _clearControllers() {
-    name.clear();
     email.clear();
     password.clear();
   }
