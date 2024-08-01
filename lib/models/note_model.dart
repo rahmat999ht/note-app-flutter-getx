@@ -30,7 +30,6 @@ class NoteModel {
   }
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "title": title,
     "body": body,
     "creationDate": creationDate,

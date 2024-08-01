@@ -16,7 +16,6 @@ class RegisterController extends GetxController {
 
   String usersCollection = "users";
   Rx<UserModel> userModel = UserModel().obs;
-  Rx<int> axisCount = 2.obs;
 
   final isObscure = true.obs;
   final isObscureConfir = true.obs;
