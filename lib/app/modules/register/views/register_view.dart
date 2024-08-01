@@ -40,9 +40,9 @@ class RegisterView extends GetView<RegisterController> {
                     child: Column(
                       children: [
                         CustomTextField(
-                          hintText: "USERNAME",
+                          hintText: "NAME",
                           iconData: Icons.person,
-                          textEditingController: controller.userName,
+                          textEditingController: controller.name,
                           validator: (v) => controller.validateUserName(v),
                           obscureText: false,
                         ),
@@ -53,20 +53,44 @@ class RegisterView extends GetView<RegisterController> {
                           validator: (v) => controller.validateEmail(v),
                           obscureText: false,
                         ),
-                        CustomTextField(
-                          hintText: "PASSWORD",
-                          iconData: Icons.security,
-                          textEditingController: controller.password,
-                          validator: (v) => controller.validatePassword(v),
-                          obscureText: true,
+                        Obx(
+                          () => CustomTextField(
+                            hintText: "PASSWORD",
+                            iconData: Icons.security,
+                            textEditingController: controller.password,
+                            validator: (v) => controller.validatePassword(v),
+                            obscureText: controller.isObscure.value,
+                            iconLeft: GestureDetector(
+                              onTap: controller.stateObscure,
+                              child: Icon(
+                                !controller.isObscure.value
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                size: 26,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
                         ),
-                        CustomTextField(
-                          hintText: "CONFIR PASSWORD",
-                          iconData: Icons.security,
-                          textEditingController: controller.confirPassword,
-                          validator: (v) =>
-                              controller.validateConfirmPassword(v),
-                          obscureText: true,
+                        Obx(
+                          () => CustomTextField(
+                            hintText: "CONFIR PASSWORD",
+                            iconData: Icons.security,
+                            textEditingController: controller.confirPassword,
+                            validator: (v) =>
+                                controller.validateConfirmPassword(v),
+                            obscureText: controller.isObscureConfir.value,
+                            iconLeft: GestureDetector(
+                              onTap: controller.stateObscureConfir,
+                              child: Icon(
+                                !controller.isObscureConfir.value
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                size: 26,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

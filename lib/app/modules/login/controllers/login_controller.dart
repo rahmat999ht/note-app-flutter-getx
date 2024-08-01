@@ -1,27 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:note_app_flutter_getx_firebase/app/modules/account/controllers/account_controller.dart';
 import 'package:note_app_flutter_getx_firebase/app/routes/app_pages.dart';
-import 'package:note_app_flutter_getx_firebase/services/firestore.dart';
-
-import '../../../../models/user_model.dart';
+import 'package:note_app_flutter_getx_firebase/services/auth.dart';
 
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
+  final authServices = AuthServices();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  Database database = Database();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   String usersCollection = "users";
-  Rx<UserModel> userModel = UserModel().obs;
+  final isObscure = true.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  void stateObscure() => isObscure.value = !isObscure.value;
 
   void toSingUp() => Get.toNamed(Routes.REGISTER);
 
@@ -31,29 +25,14 @@ class LoginController extends GetxController {
       if (error.isNotEmpty) {
         return Get.snackbar("info", "form error sebanyak ${error.length}");
       }
-      print("IN logging in email ${email.text} password ${password.text}");
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-          email: email.text, password: password.text);
-      // .then((value) msync {
-      Get.find<AccountController>().user =
-          await database.getUser(userCredential.user!.uid);
-      _clearControllers();
+      log("IN logging in email ${email.text} password ${password.text}");
+      await authServices.login(email.text, password.text).then((v) {
+        _clearControllers();
+        Get.offAllNamed(Routes.HOME);
+      });
     } catch (e) {
       Get.snackbar(
         'Error logging in',
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
-
-  void signout() async {
-    try {
-      await _auth.signOut();
-      Get.find<AccountController>().user = UserModel();
-    } catch (e) {
-      Get.snackbar(
-        'Error signing out',
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );

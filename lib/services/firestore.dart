@@ -11,11 +11,11 @@ class Database {
   final String userCollection = "users";
   final String noteCollection = "notes";
 
-  Future<bool> createNewUser(UserModel user) async {
+  Future<bool> createNewUser(String id, UserModel user) async {
     try {
       await _firestore
           .collection(userCollection)
-          .doc(user.id)
+          .doc(id)
           .set(user.toJson());
       return true;
     } catch (e) {

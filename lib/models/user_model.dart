@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // import 'package:json/json.dart';
 // already is flutter 3.24
 // @JsonCodable()
 class UserModel {
   String? id;
-  String? userName;
+  String? name;
   String? email;
 
-  UserModel({this.id, this.userName, this.email});
+  UserModel({this.id, this.name, this.email});
 
   UserModel.fromJson({required Map<String, dynamic> map, required String id}) {
     id = id;
-    userName = map["userName"];
+    name = map["name"];
     email = map["email"];
   }
 
@@ -26,8 +25,7 @@ class UserModel {
 
   Map<String, dynamic> toJson() =>
       {
-        "id": id,
-        "userName": userName,
+        "name": name,
         "email": email,
       };
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +16,8 @@ void main() async {
   PrefService prefService = PrefService();
   await prefService.prefInit();
 
-  String isLogin = prefService.getEmailLogin ?? '';
+  String isLogin = prefService.getIdCustomer ?? '';
+  log(isLogin.toString(), name: "isLogin");
   String initialRoutes = isLogin == '' ? Routes.LOGIN : Routes.HOME;
 
   runApp(MyApp(initialRoutes: initialRoutes));

@@ -1,17 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:note_app_flutter_getx_firebase/app/routes/app_pages.dart';
 
 import '../../../../models/user_model.dart';
-import '../../../../services/firestore.dart';
-import '../../account/controllers/account_controller.dart';
+import '../../../../services/auth.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
+  final authServices = AuthServices();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  Database database = Database();
-  TextEditingController userName = TextEditingController();
+  TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirPassword = TextEditingController();
@@ -19,6 +17,13 @@ class RegisterController extends GetxController {
   String usersCollection = "users";
   Rx<UserModel> userModel = UserModel().obs;
   Rx<int> axisCount = 2.obs;
+
+  final isObscure = true.obs;
+  final isObscureConfir = true.obs;
+
+  void stateObscure() => isObscure.value = !isObscure.value;
+
+  void stateObscureConfir() => isObscureConfir.value = !isObscureConfir.value;
 
   @override
   void onInit() {
@@ -31,22 +36,9 @@ class RegisterController extends GetxController {
       if (error.isNotEmpty) {
         return Get.snackbar("info", "form error sebanyak ${error.length}");
       }
-      await _auth
-          .createUserWithEmailAndPassword(
-              email: email.text.trim(), password: password.text.trim())
-          .then((value) {
-        UserModel _user = UserModel(
-          id: value.user!.uid,
-          userName: userName.text,
-          email: email.text,
-        );
-        Database().createNewUser(_user).then((value) {
-          if (value) {
-            Get.find<AccountController>().user = _user;
-            Get.back();
-            _clearControllers();
-          }
-        });
+      authServices.register(name.text, email.text, password.text).then((v) {
+        _clearControllers();
+        Get.toNamed(Routes.LOGIN);
       });
     } catch (e) {
       Get.snackbar(
@@ -58,7 +50,7 @@ class RegisterController extends GetxController {
   }
 
   _clearControllers() {
-    userName.clear();
+    name.clear();
     email.clear();
     password.clear();
     confirPassword.clear();

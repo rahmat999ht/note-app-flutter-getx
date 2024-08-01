@@ -45,13 +45,24 @@ class LoginView extends GetView<LoginController> {
                           validator: (v) => controller.validateEmail(v),
                           obscureText: false,
                         ),
-
-                        CustomTextField(
-                          hintText: "PASSWORD",
-                          iconData: Icons.security,
-                          textEditingController: controller.password,
-                          validator: (v) => controller.validatePassword(v),
-                          obscureText: true,
+                        Obx(
+                          () => CustomTextField(
+                            hintText: "PASSWORD",
+                            iconData: Icons.security,
+                            textEditingController: controller.password,
+                            validator: (v) => controller.validatePassword(v),
+                            obscureText: controller.isObscure.value,
+                            iconLeft: GestureDetector(
+                              onTap: controller.stateObscure,
+                              child: Icon(
+                                !controller.isObscure.value
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                size: 26,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

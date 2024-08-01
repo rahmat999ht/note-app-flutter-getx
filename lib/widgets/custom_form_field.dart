@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.iconData,
+     this.iconLeft,
     required this.textEditingController,
     required this.validator,
     required this.obscureText,
@@ -12,6 +13,7 @@ class CustomTextField extends StatelessWidget {
 
   final String hintText;
   final IconData iconData;
+  final Widget? iconLeft;
   final TextEditingController textEditingController;
   final String? Function(String?)? validator;
   final bool obscureText;
@@ -32,6 +34,7 @@ class CustomTextField extends StatelessWidget {
             iconData,
             color: Colors.grey,
           ),
+          suffixIcon: iconLeft,
           hintText: hintText,
           errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
