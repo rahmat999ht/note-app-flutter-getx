@@ -46,9 +46,6 @@ class RegisterView extends GetView<RegisterController> {
                           validator: (v) => controller.validateUserName(v),
                           obscureText: false,
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
                         CustomTextField(
                           hintText: "EMAIL",
                           iconData: Icons.email,
@@ -56,18 +53,12 @@ class RegisterView extends GetView<RegisterController> {
                           validator: (v) => controller.validateEmail(v),
                           obscureText: false,
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
                         CustomTextField(
                           hintText: "PASSWORD",
                           iconData: Icons.security,
                           textEditingController: controller.password,
                           validator: (v) => controller.validatePassword(v),
                           obscureText: true,
-                        ),
-                        const SizedBox(
-                          height: 30,
                         ),
                         CustomTextField(
                           hintText: "CONFIR PASSWORD",

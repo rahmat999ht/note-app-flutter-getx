@@ -11,7 +11,6 @@ class RegisterController extends GetxController {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   Database database = Database();
-  late Rx<User?> _firebaseUser;
   TextEditingController userName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -23,8 +22,6 @@ class RegisterController extends GetxController {
 
   @override
   void onInit() {
-    _firebaseUser = Rx<User>(_auth.currentUser!);
-    _firebaseUser.bindStream(_auth.userChanges());
     super.onInit();
   }
 
@@ -32,7 +29,7 @@ class RegisterController extends GetxController {
     try {
       final error = formKey.currentState!.validateGranularly().toList();
       if (error.isNotEmpty) {
-        return Get.snackbar("info", "form error sebanyak ${error.length}}");
+        return Get.snackbar("info", "form error sebanyak ${error.length}");
       }
       await _auth
           .createUserWithEmailAndPassword(

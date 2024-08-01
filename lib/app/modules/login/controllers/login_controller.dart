@@ -12,7 +12,6 @@ class LoginController extends GetxController {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   Database database = Database();
-  late Rx<User?> _firebaseUser;
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -21,8 +20,6 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    _firebaseUser = Rx<User>(_auth.currentUser!);
-    _firebaseUser.bindStream(_auth.userChanges());
     super.onInit();
   }
 
@@ -32,12 +29,12 @@ class LoginController extends GetxController {
     try {
       final error = formKey.currentState!.validateGranularly().toList();
       if (error.isNotEmpty) {
-        return Get.snackbar("info", "form error sebanyak ${error.length}}");
+        return Get.snackbar("info", "form error sebanyak ${error.length}");
       }
       print("IN logging in email ${email.text} password ${password.text}");
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email.text, password: password.text);
-      // .then((value) async {
+      // .then((value) msync {
       Get.find<AccountController>().user =
           await database.getUser(userCredential.user!.uid);
       _clearControllers();

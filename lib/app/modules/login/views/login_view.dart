@@ -45,9 +45,7 @@ class LoginView extends GetView<LoginController> {
                           validator: (v) => controller.validateEmail(v),
                           obscureText: false,
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
+
                         CustomTextField(
                           hintText: "PASSWORD",
                           iconData: Icons.security,
