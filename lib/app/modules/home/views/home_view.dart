@@ -1,15 +1,12 @@
-// import 'dart:math';
-
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_popup_menu_button/custom_popup_menu_button.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app_flutter_getx_firebase/app/routes/app_pages.dart';
 
-import '../../../../widgets/custom_icon_btn.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -19,26 +16,18 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 60,
         backgroundColor: context.theme.colorScheme.primary,
         title: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                 Text(
                   "Notes",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: context.textTheme.titleMedium,
                 ),
-                CustomIconBtn(
-                  color: context.theme.colorScheme.primary,
-                  onPressed: () => Get.toNamed(Routes.SETTING),
-                  icon: const Icon(
-                    Icons.settings,
-                  ),
-                ),
+                popUpMenu(context),
               ],
             ),
             const SizedBox(
@@ -52,17 +41,16 @@ class HomeView extends GetView<HomeController> {
           // log(state.toString(), name: "isi list");
           return ListView.builder(
             shrinkWrap: true,
-            itemCount: state!.length,
+            itemCount: state!.notes.length,
             itemBuilder: (context, index) {
               var formattedDate = DateFormat.yMMMd()
-                  .format(state[index].creationDate!.toDate());
+                  .format(state.notes[index].creationDate!.toDate());
               Random random = Random();
               Color bg = controller.lightColors[random.nextInt(8)];
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.SHOWNOTE, arguments: {
-                    'data': state[index],
-                    'idLogin': controller.uid,
+                    'data': state.notes[index],
                   });
                 },
                 child: Container(
@@ -94,7 +82,7 @@ class HomeView extends GetView<HomeController> {
                             vertical: 8,
                           ),
                           child: Text(
-                            state[index].title!,
+                            state.notes[index].title!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -105,7 +93,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                         ),
                         subtitle: Text(
-                          state[index].body!,
+                          state.notes[index].body!,
                           maxLines: 10,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -133,7 +121,11 @@ class HomeView extends GetView<HomeController> {
           );
         },
         onEmpty: const Center(child: Text('Kosong')),
-        onLoading: const Center(child: SingleChildScrollView()),
+        onLoading: Center(
+          child: CircularProgressIndicator(
+            color: context.theme.colorScheme.surface,
+          ),
+        ),
         onError: (e) => Center(child: Text(e.toString())),
       ),
       floatingActionButton: FloatingActionButton(
@@ -144,6 +136,63 @@ class HomeView extends GetView<HomeController> {
           size: 30,
         ),
       ),
+    );
+  }
+
+  Widget popUpMenu(BuildContext context) {
+    return controller.obx(
+      (state) {
+        return FlutterPopupMenuButton(
+          direction: MenuDirection.left,
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Colors.white),
+          popupMenuSize: const Size(200, 300),
+          child: FlutterPopupMenuIcon(
+            key: GlobalKey(),
+            child: CircleAvatar(
+              child: Text(state!.user.email?[0].toUpperCase() ?? ''),
+            ),
+          ),
+          children: <FlutterPopupMenuItem>[
+            FlutterPopupMenuItem(
+              child: ListTile(
+                leading: const Icon(Icons.person),
+                title: Text(state.user.name!),
+                subtitle: Text(state.user.email!),
+              ),
+            ),
+            FlutterPopupMenuItem(
+              onTap: () => Get.changeThemeMode(ThemeMode.light),
+              child: const ListTile(
+                title: Text('light_mode'),
+                leading: Icon(Icons.light_mode),
+              ),
+            ),
+            FlutterPopupMenuItem(
+              onTap: () => Get.changeThemeMode(ThemeMode.dark),
+              child: const ListTile(
+                title: Text('dark_mode'),
+                leading: Icon(Icons.dark_mode),
+              ),
+            ),
+            FlutterPopupMenuItem(
+              onTap: controller.logOut,
+              child: const ListTile(
+                title: Text('logout'),
+                leading: Icon(Icons.logout),
+              ),
+            ),
+          ],
+        );
+      },
+      onEmpty: const Center(child: Text('Kosong')),
+      onLoading: Center(
+        child: CircularProgressIndicator(
+          color: context.theme.colorScheme.surface,
+        ),
+      ),
+      onError: (e) => Center(child: Text(e.toString())),
     );
   }
 }

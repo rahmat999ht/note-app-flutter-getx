@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColorLight {
+class ColorApp {
   static const Color whitePrimary = Color(0xFFFFFFFF);
   static const Color blackPrimary = Color(0xFF000000);
   static const Color greenPrimary = Color(0xFF0EBE7F);
@@ -13,3 +13,4 @@ class ColorLight {
   static const Color textSecondary = Color(0xFF737373);
   static const Color textTertiary = Color(0xFF677294);
 }
+

@@ -16,6 +16,12 @@ class UserModel {
     email = map["email"];
   }
 
+  UserModel.fromMap( Map<String, dynamic> map) {
+    id =  map["id"];
+    name = map["name"];
+    email = map["email"];
+  }
+
   factory UserModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     return UserModel.fromJson(
         id : doc.id,

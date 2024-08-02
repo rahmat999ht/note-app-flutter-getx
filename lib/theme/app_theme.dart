@@ -10,17 +10,17 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       // background: ColorLight.whitePrimary,
       // onBackground: ColorLight.blackPrimary, // Text on background color
-      primary: ColorLight.whitePrimary,
-      onPrimary: ColorLight.textPrimary, // Text on primary color
-      secondary: ColorLight.textSecondary,
-      onSecondary: ColorLight.blueGrey, // Text on secondary color
-      surface: ColorLight.greenPrimary,
-      onSurface: ColorLight.textPrimary, // Text on surface color
-      tertiary: ColorLight.textPrimary,
-      secondaryContainer: ColorLight.greyPrymery,
-      onSecondaryContainer: ColorLight.greenDark,
-      primaryContainer: ColorLight.greenLight,
-      error: ColorLight.redPrimary,
+      primary: ColorApp.whitePrimary,
+      onPrimary: ColorApp.textPrimary, // Text on primary color
+      secondary: ColorApp.textSecondary,
+      onSecondary: ColorApp.blueGrey, // Text on secondary color
+      surface: ColorApp.greenPrimary,
+      onSurface: ColorApp.textPrimary, // Text on surface color
+      tertiary: ColorApp.textPrimary,
+      secondaryContainer: ColorApp.greyPrymery,
+      onSecondaryContainer: ColorApp.greenDark,
+      primaryContainer: ColorApp.greenLight,
+      error: ColorApp.redPrimary,
     ),
     primaryColor: Colors.orange,
     iconTheme: const IconThemeData(
@@ -39,17 +39,17 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       // background: ColorLight.whitePrimary,
       // onBackground: ColorLight.blackPrimary, // Text on background color
-      primary: ColorLight.whitePrimary,
-      onPrimary: ColorLight.textPrimary, // Text on primary color
-      secondary: ColorLight.textSecondary,
-      onSecondary: ColorLight.blueGrey, // Text on secondary color
-      surface: ColorLight.greenPrimary,
-      onSurface: ColorLight.textPrimary, // Text on surface color
-      tertiary: ColorLight.textPrimary,
-      secondaryContainer: ColorLight.greyPrymery,
-      onSecondaryContainer: ColorLight.greenDark,
-      primaryContainer: ColorLight.greenLight,
-      error: ColorLight.redPrimary,
+      primary: ColorApp.blackPrimary,
+      onPrimary: ColorApp.whitePrimary, // Text on primary color
+      secondary: ColorApp.whitePrimary,
+      onSecondary: ColorApp.blueGrey, // Text on secondary color
+      surface: ColorApp.greenPrimary,
+      onSurface: ColorApp.textPrimary, // Text on surface color
+      tertiary: ColorApp.textPrimary,
+      secondaryContainer: ColorApp.greyPrymery,
+      onSecondaryContainer: ColorApp.greenDark,
+      primaryContainer: ColorApp.greenLight,
+      error: ColorApp.redPrimary,
     ),
     buttonTheme: const ButtonThemeData(
       buttonColor: Colors.white,
@@ -61,24 +61,6 @@ class AppTheme {
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       // foregroundColor: Colors.white,
       // backgroundColor: Colors.teal.shade500,
-    ),
-  );
-  static final light = ThemeData(
-    brightness: Brightness.light,
-    colorScheme: const ColorScheme.light(
-      // background: ColorLight.whitePrimary,
-      // onBackground: ColorLight.blackPrimary, // Text on background color
-      primary: ColorLight.whitePrimary,
-      onPrimary: ColorLight.textPrimary, // Text on primary color
-      secondary: ColorLight.textSecondary,
-      onSecondary: ColorLight.blueGrey, // Text on secondary color
-      surface: ColorLight.greenPrimary,
-      onSurface: ColorLight.textPrimary, // Text on surface color
-      tertiary: ColorLight.textPrimary,
-      secondaryContainer: ColorLight.greyPrymery,
-      onSecondaryContainer: ColorLight.greenDark,
-      primaryContainer: ColorLight.greenLight,
-      error: ColorLight.redPrimary,
     ),
   );
 }

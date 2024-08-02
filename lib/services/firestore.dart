@@ -21,7 +21,7 @@ class Database {
     }
   }
 
-  Future<UserModel> getUser(String uid) async {
+  Future<UserModel?> getUser(String uid) async {
     try {
       DocumentSnapshot doc =
           await _firestore.collection(userCollection).doc(uid).get();

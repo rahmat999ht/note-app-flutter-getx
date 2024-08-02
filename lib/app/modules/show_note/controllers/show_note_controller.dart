@@ -5,22 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:note_app_flutter_getx_firebase/services/firestore.dart';
-import 'package:note_app_flutter_getx_firebase/services/shared_preference.dart';
 
 import '../../../../models/note_model.dart';
+import '../../../../services/shared_preference.dart';
 
-class ShowNoteController extends GetxController {
-  // final prefServices = PrefService();
+class ShowNoteController extends GetxController with StateMixin<NoteModel> {
+  final prefServices = PrefService();
   final database = Database();
 
-  late NoteModel noteData;
+  NoteModel? noteData;
 
   // late int index;
   final time = ''.obs;
   final formattedDate = ''.obs;
   final isLoading = false.obs;
-  String idLogin = '';
-  String idNote = '';
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController bodyController = TextEditingController();
@@ -28,18 +26,16 @@ class ShowNoteController extends GetxController {
   void stateLoading() => isLoading.value = !isLoading.value;
 
   Future<void> save() async {
-    if (titleController.text != noteData.title ||
-        bodyController.text != noteData.body) {
+    if (titleController.text != noteData!.title ||
+        bodyController.text != noteData!.body) {
       stateLoading();
-      log(idLogin, name: "idLogin");
-      log(idNote, name: "idNote");
 
       database
           .updateNote(
-        idLogin,
+        prefServices.getIdLogin!,
         titleController.text,
         bodyController.text,
-        idNote,
+        noteData!.id!,
       )
           .then(
         (v) {
@@ -67,7 +63,7 @@ class ShowNoteController extends GetxController {
       onConfirm: () {
         Get.back();
         stateLoading();
-        database.delete(idLogin, idNote).then((v) {
+        database.delete(prefServices.getIdLogin!, noteData!.id!).then((v) {
           Get.snackbar('info', "Catatan berhasil di hapus");
           stateLoading();
         });
@@ -79,23 +75,25 @@ class ShowNoteController extends GetxController {
   @override
   void onInit() {
     noteData = Get.arguments['data'];
-    idLogin = Get.arguments['idLogin'];
-    idNote = noteData.id ?? "0";
-
-    log(idLogin, name: "idLogin");
-    log(idNote, name: "idNote");
-    log(noteData.toJson().toString(), name: "noteData");
-    // prefServices.prefInit();
+    prefServices.prefInit();
+    if (noteData == null) {
+      change(NoteModel.fromJson({}), status: RxStatus.empty());
+    } else if (noteData != null) {
+      log(noteData!.toJson().toString(), name: "noteData");
+      change(noteData, status: RxStatus.success());
+    } else {
+      change(null, status: RxStatus.error());
+    }
     super.onInit();
   }
 
   @override
   void onReady() {
-    titleController.text = noteData.title!;
-    bodyController.text = noteData.body!;
+    titleController.text = noteData!.title!;
+    bodyController.text = noteData!.body!;
     formattedDate.value =
-        DateFormat.yMMMd().format(noteData.creationDate!.toDate());
-    time.value = DateFormat.jm().format(noteData.creationDate!.toDate());
+        DateFormat.yMMMd().format(noteData!.creationDate!.toDate());
+    time.value = DateFormat.jm().format(noteData!.creationDate!.toDate());
 
     super.onReady();
   }

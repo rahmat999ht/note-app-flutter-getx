@@ -11,85 +11,94 @@ class ShowNoteView extends GetView<ShowNoteController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(
-            16.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomIconBtn(
-                    color: context.theme.colorScheme.primary,
-                    onPressed: Get.back,
-                    icon: const Icon(
-                      Icons.arrow_back_ios_outlined,
-                    ),
-                  ),
-                  Obx(
-                    () => CustomIconBtn(
+      body: controller.obx(
+        (state) => SafeArea(
+          child: Container(
+            padding: const EdgeInsets.all(
+              16.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomIconBtn(
                       color: context.theme.colorScheme.primary,
-                      onPressed: controller.isLoading.isFalse
-                          ? controller.showDialogDelete
-                          : null,
-                      icon: controller.isLoading.isFalse
-                          ? const Icon(Icons.delete)
-                          : const CircularProgressIndicator(),
+                      onPressed: Get.back,
+                      icon: const Icon(
+                        Icons.arrow_back_ios_outlined,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Obx(
-                        () => Text(
-                          "${controller.formattedDate.value} at ${controller.time.value}",
-                        ),
+                    Obx(
+                      () => CustomIconBtn(
+                        color: context.theme.colorScheme.primary,
+                        onPressed: controller.isLoading.isFalse
+                            ? controller.showDialogDelete
+                            : null,
+                        icon: controller.isLoading.isFalse
+                            ? const Icon(Icons.delete)
+                            : const CircularProgressIndicator(),
                       ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        controller: controller.titleController,
-                        maxLines: null,
-                        cursorColor: context.theme.colorScheme.surface,
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "Title",
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Obx(
+                          () => Text(
+                            "${controller.formattedDate.value} at ${controller.time.value}",
+                          ),
                         ),
-                        style: const TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w500,
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: controller.titleController,
+                          maxLines: null,
+                          cursorColor: context.theme.colorScheme.surface,
+                          decoration: const InputDecoration.collapsed(
+                            hintText: "",
+                          ),
+                          style: const TextStyle(
+                            fontSize: 26.0,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        autofocus: true,
-                        cursorColor: context.theme.colorScheme.surface,
-                        controller: controller.bodyController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration.collapsed(
-                          hintText: "Type something...",
+                        const SizedBox(
+                          height: 20,
                         ),
-                        style: const TextStyle(
-                          fontSize: 20.0,
+                        TextFormField(
+                          autofocus: true,
+                          cursorColor: context.theme.colorScheme.surface,
+                          controller: controller.bodyController,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          decoration: const InputDecoration.collapsed(
+                            hintText: "",
+                          ),
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+        onEmpty: const Center(child: Text('Kosong')),
+        onLoading: Center(
+          child: CircularProgressIndicator(
+            color: context.theme.colorScheme.surface,
+          ),
+        ),
+        onError: (e) => Center(child: Text(e.toString())),
       ),
       floatingActionButton: Obx(
         () => FloatingActionButton.extended(
