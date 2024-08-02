@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:note_app_flutter_getx_firebase/services/shared_preference.dart';
 
+import '../app/routes/app_pages.dart';
 import '../models/user_model.dart';
 import 'firestore.dart';
 
@@ -25,6 +26,7 @@ class AuthServices {
         log(userCredential.user!.uid, name: "id userCredential");
         return Get.snackbar('Info', "anda berhasil login");
       });
+      Get.offAllNamed(Routes.HOME, arguments: userCredential.user!.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         log('no user found for that email');
@@ -96,7 +98,7 @@ class AuthServices {
     }
   }
 
-  void logout() async {
+  Future logout() async {
     await auth.signOut();
     prefServices.removeIdLogin();
   }

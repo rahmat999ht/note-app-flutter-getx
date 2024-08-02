@@ -28,7 +28,6 @@ class LoginController extends GetxController {
       log("IN logging in email ${email.text} password ${password.text}");
       await authServices.login(email.text, password.text).then((v) {
         _clearControllers();
-        Get.offAllNamed(Routes.HOME);
       });
     } catch (e) {
       Get.snackbar(
