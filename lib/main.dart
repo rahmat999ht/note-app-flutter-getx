@@ -16,7 +16,7 @@ void main() async {
   PrefService prefService = PrefService();
   await prefService.prefInit();
 
-  String isLogin = prefService.getIdCustomer ?? '';
+  String isLogin = prefService.getIdLogin ?? '';
   log(isLogin.toString(), name: "isLogin");
   String initialRoutes = isLogin == '' ? Routes.LOGIN : Routes.HOME;
 

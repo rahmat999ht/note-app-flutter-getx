@@ -13,10 +13,7 @@ class Database {
 
   Future<bool> createNewUser(String id, UserModel user) async {
     try {
-      await _firestore
-          .collection(userCollection)
-          .doc(id)
-          .set(user.toJson());
+      await _firestore.collection(userCollection).doc(id).set(user.toJson());
       return true;
     } catch (e) {
       log(e.toString());
@@ -87,19 +84,12 @@ class Database {
     }
   }
 
-  Stream<List<NoteModel>> noteStream(String uid) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> noteStream(String uid) {
     return _firestore
         .collection(userCollection)
         .doc(uid)
         .collection(noteCollection)
         .orderBy("creationDate", descending: true)
-        .snapshots()
-        .map((QuerySnapshot query) {
-      List<NoteModel> retVal = [];
-      query.docs.forEach((element) {
-        retVal.add(NoteModel.fromDocumentSnapshot(element));
-      });
-      return retVal;
-    });
+        .snapshots();
   }
 }

@@ -25,31 +25,17 @@ class PrefService {
   }
 
   /// for getting string from box
-  String? get getEmailLogin {
-    return _prefs?.getString(KeysPref.emailLogin);
+  String? get getIdLogin {
+    return _prefs?.getString(KeysPref.idLogin);
   }
 
-  /// for storing token to app
-  Future<void> putEmailLogin(String email) async {
-    await _prefs?.setString(KeysPref.emailLogin, email);
+  /// for storing idLogin to app
+  Future<void> putIdLogin(String idLogin) async {
+    await _prefs?.setString(KeysPref.idLogin, idLogin);
   }
 
-  Future<void> removeEmailLogin() async {
-    await _prefs?.remove(KeysPref.emailLogin);
-  }
-
-  /// for getting string from box
-  String? get getIdCustomer {
-    return _prefs?.getString(KeysPref.idCustomer);
-  }
-
-  /// for storing idCustomer to app
-  Future<void> putIdCustomer(String idCustomer) async {
-    await _prefs?.setString(KeysPref.idCustomer, idCustomer);
-  }
-
-  Future<void> removeIdCustomer() async {
-    await _prefs?.remove(KeysPref.idCustomer);
+  Future<void> removeIdLogin() async {
+    await _prefs?.remove(KeysPref.idLogin);
   }
 
   /// for clearing all data in box

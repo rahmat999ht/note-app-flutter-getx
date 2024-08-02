@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:note_app_flutter_getx_firebase/services/firestore.dart';
 import 'package:note_app_flutter_getx_firebase/services/shared_preference.dart';
@@ -11,8 +10,8 @@ import '../../../../models/note_model.dart';
 class HomeController extends GetxController with StateMixin<List<NoteModel>> {
   final prefService = PrefService();
   final database = Database();
-  Rx<int> axisCount = 2.obs;
   List<NoteModel> noteList = <NoteModel>[];
+  String uid = '';
   Rx<TextEditingController> titleController = TextEditingController().obs;
   Rx<TextEditingController> bodyController = TextEditingController().obs;
 
@@ -36,14 +35,20 @@ class HomeController extends GetxController with StateMixin<List<NoteModel>> {
 
   @override
   void onReady() {
-    String uid = prefService.getIdCustomer!;
+    uid = prefService.getIdLogin!;
     log("NoteController onit :: $uid");
     database.noteStream(uid).listen((v) {
-      if (v.isEmpty) {
+      if (v.size == 0) {
+        log("empty");
         change([], status: RxStatus.empty());
       } else {
-        noteList = value!;
-        log(noteList.toString(), name: "isi list");
+        noteList = List.generate(v.docs.length, (index) {
+          final data = v.docs[index];
+          log("data Note ${data.data()}");
+          log("data id Note ${data.id}");
+          return NoteModel.fromDocumentSnapshot(data);
+        });
+        log("${noteList.toSet()}", name: "isi list");
         change(noteList, status: RxStatus.success());
       }
     }).onError((e) {

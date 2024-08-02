@@ -8,17 +8,21 @@ class NoteModel {
 
   NoteModel({this.id, this.title, this.body, this.creationDate});
 
-  NoteModel.fromMap({required Map<String, dynamic> map, required String id}) {
-    id = id;
-    title = map['title'];
-    body = map["body"];
-    creationDate = map["creationDate"];
+  factory NoteModel.fromMap(
+      {required Map<String, dynamic> map, required String id}) {
+    return NoteModel(
+      id: id,
+      title: map['title'],
+      body: map["body"],
+      creationDate: map["creationDate"],
+    );
   }
 
-  factory NoteModel.fromDocumentSnapshot(DocumentSnapshot doc) {
+  factory NoteModel.fromDocumentSnapshot(
+      QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     return NoteModel.fromMap(
-      id : doc.id,
-      map : doc.data() as Map<String, dynamic>,
+      id: doc.id,
+      map: doc.data(),
     );
   }
 
@@ -30,8 +34,8 @@ class NoteModel {
   }
 
   Map<String, dynamic> toJson() => {
-    "title": title,
-    "body": body,
-    "creationDate": creationDate,
-  };
+        "title": title,
+        "body": body,
+        "creationDate": creationDate,
+      };
 }

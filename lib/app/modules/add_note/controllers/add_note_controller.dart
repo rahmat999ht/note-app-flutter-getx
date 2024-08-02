@@ -8,6 +8,9 @@ class AddNoteController extends GetxController {
   final prefServices = PrefService();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController bodyController = TextEditingController();
+  final isLoading = false.obs;
+
+  void stateLoading() => isLoading.value = !isLoading.value;
 
   void save() {
     if (titleController.text.isEmpty && bodyController.text.isEmpty) {
@@ -16,8 +19,14 @@ class AddNoteController extends GetxController {
         middleText: "Isi semua form terlebih dahulu",
       );
     } else {
-      database.addNote(prefServices.getIdCustomer!, titleController.text,
-          bodyController.text);
+      stateLoading();
+      database.addNote(prefServices.getIdLogin!, titleController.text,
+          bodyController.text).then(
+            (v) {
+          Get.snackbar('info', "Catatan berhasil di tambah");
+          stateLoading();
+        },
+      );
       Get.back();
     }
   }

@@ -52,6 +52,7 @@ class AddNoteView extends GetView<AddNoteController> {
                     TextFormField(
                       maxLines: null,
                       autofocus: true,
+                      cursorColor: context.theme.colorScheme.surface,
                       controller: controller.titleController,
                       keyboardType: TextInputType.multiline,
                       textCapitalization: TextCapitalization.sentences,
@@ -69,6 +70,7 @@ class AddNoteView extends GetView<AddNoteController> {
                     TextFormField(
                       controller: controller.bodyController,
                       keyboardType: TextInputType.multiline,
+                      cursorColor: context.theme.colorScheme.surface,
                       maxLines: null,
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration.collapsed(
@@ -85,10 +87,14 @@ class AddNoteView extends GetView<AddNoteController> {
           ]),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: controller.save,
-        label: const Text("Save"),
-        icon: const Icon(Icons.save),
+      floatingActionButton: Obx(
+        () => FloatingActionButton.extended(
+          onPressed: controller.isLoading.isFalse ? controller.save : null,
+          label: controller.isLoading.isFalse
+              ? const Text("Save")
+              : const CircularProgressIndicator(),
+          icon: controller.isLoading.isFalse ? const Icon(Icons.save) : null,
+        ),
       ),
     );
   }

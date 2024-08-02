@@ -21,7 +21,7 @@ class AuthServices {
         password: pass,
       );
       prefServices.prefInit();
-      await prefServices.putIdCustomer(userCredential.user!.uid).then((v) {
+      await prefServices.putIdLogin(userCredential.user!.uid).then((v) {
         log(userCredential.user!.uid, name: "id userCredential");
         return Get.snackbar('Info', "anda berhasil login");
       });
@@ -98,6 +98,6 @@ class AuthServices {
 
   void logout() async {
     await auth.signOut();
-    prefServices.removeIdCustomer();
+    prefServices.removeIdLogin();
   }
 }
